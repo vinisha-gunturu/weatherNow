@@ -57,6 +57,19 @@
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
   }
+  
+  /* Focus styles for better accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-transparent;
+  }
+  
+  /* Ensure interactive elements have proper focus styles */
+  button:focus-visible,
+  a:focus-visible,
+  input:focus-visible,
+  [tabindex]:focus-visible {
+    @apply outline-none ring-2 ring-blue-400 ring-offset-2;
+  }
 }
 
 @layer utilities {
@@ -90,6 +103,48 @@
     background: rgba(0, 0, 0, 0.2);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
+  
+  /* Screen reader only content */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  
+  .focus\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    padding: inherit;
+    margin: inherit;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .glass {
+      background: rgba(255, 255, 255, 0.9);
+      border: 2px solid #000;
+    }
+    
+    .dark .glass {
+      background: rgba(0, 0, 0, 0.9);
+      border: 2px solid #fff;
+    }
+  }
+  
+  /* Better text contrast */
+  .text-high-contrast {
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  }
 }
 
 /* Smooth scrolling for better UX */
@@ -99,9 +154,67 @@ html {
 
 /* Reduce motion for accessibility */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
+}
+
+/* Improve color contrast in high contrast mode */
+@media (prefers-contrast: high) {
+  body {
+    background: white;
+    color: black;
+  }
+  
+  .dark body {
+    background: black;
+    color: white;
+  }
+}
+
+/* Print styles */
+@media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+  
+  .weather-particles,
+  .glass::before,
+  .glass::after {
+    display: none !important;
+  }
+}
+
+/* Better loading states */
+.loading-shimmer {
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* Performance optimizations */
+.will-change-transform {
+  will-change: transform;
+}
+
+.will-change-opacity {
+  will-change: opacity;
+}
+
+/* Ensure good color contrast for weather icons */
+.weather-icon {
+  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
 }

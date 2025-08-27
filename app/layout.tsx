@@ -4,6 +4,7 @@ import '../styles/globals.css'
 import { Providers } from './providers'
 import { WeatherThemeProvider } from '@/components/WeatherThemeProvider'
 import { OfflineBanner } from '@/components/OfflineBanner'
+import { SkipLink } from '@/components/SkipLink'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -68,10 +69,13 @@ export default function RootLayout({
         <meta name="msapplication-tap-highlight" content="no" />
       </head>
       <body className={inter.className}>
+        <SkipLink />
         <Providers>
           <WeatherThemeProvider>
             <OfflineBanner />
-            {children}
+            <main id="main-content" role="main">
+              {children}
+            </main>
           </WeatherThemeProvider>
         </Providers>
       </body>
