@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
 import { Providers } from './providers'
+import { WeatherThemeProvider } from '@/components/WeatherThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -28,9 +29,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <Providers>
-          <div className="min-h-screen bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500">
+          <WeatherThemeProvider>
             {children}
-          </div>
+          </WeatherThemeProvider>
         </Providers>
       </body>
     </html>

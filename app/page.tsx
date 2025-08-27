@@ -12,16 +12,17 @@ import { HourlyForecast } from '@/components/HourlyForecast'
 import { DailyForecastCard } from '@/components/DailyForecastCard'
 import { TemperatureChart } from '@/components/TemperatureChart'
 import { PrecipitationChart } from '@/components/PrecipitationChart'
+import { useWeatherTheme } from '@/components/WeatherThemeProvider'
 import { Button } from '@/components/ui/button'
 import { WeatherAPI, GeocodingResult } from '@/lib/api'
 import { useWeatherStore, useFavouritesStore, useSettingsStore } from '@/lib/stores'
-import { getWeatherTheme } from '@/lib/utils'
 
 export default function HomePage() {
   const [selectedLocation, setSelectedLocation] = useState<GeocodingResult | null>(null)
   const { currentLocation, setCurrentLocation } = useWeatherStore()
   const { isFavourite, addFavourite, removeFavourite } = useFavouritesStore()
   const { useGeolocation } = useSettingsStore()
+  const { setWeatherCode, setIsDayTime } = useWeatherTheme()
 
   // Weather data query
   const { data: weatherData, isLoading, error, refetch } = useQuery({
@@ -34,6 +35,14 @@ export default function HomePage() {
     staleTime: 300000, // 5 minutes
     refetchInterval: 600000, // 10 minutes
   })
+
+  // Update weather theme when data changes
+  useEffect(() => {
+    if (weatherData) {
+      setWeatherCode(weatherData.current.weather_code)
+      setIsDayTime(weatherData.current.is_day === 1)
+    }
+  }, [weatherData, setWeatherCode, setIsDayTime])
 
   // Auto-get current location on mount if enabled
   useEffect(() => {
@@ -75,8 +84,6 @@ export default function HomePage() {
     }
   }
 
-  const weatherTheme = weatherData ? getWeatherTheme(weatherData.current.weather_code) : 'cloudy'
-
   const pageVariants = {
     initial: { opacity: 0 },
     in: { opacity: 1 },
@@ -107,7 +114,7 @@ export default function HomePage() {
       exit="out"
       variants={pageVariants}
       transition={pageTransition}
-      className={`min-h-screen transition-all duration-1000 weather-${weatherTheme}`}
+      className="min-h-screen"
     >
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
@@ -118,7 +125,7 @@ export default function HomePage() {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <motion.h1 
-            className="text-4xl font-bold text-white"
+            className="text-4xl font-bold text-white drop-shadow-lg"
             whileHover={{ scale: 1.05 }}
             transition={{ type: "spring", stiffness: 300 }}
           >
@@ -132,7 +139,7 @@ export default function HomePage() {
                   onClick={toggleFavourite}
                   variant="ghost"
                   size="icon"
-                  className="text-white hover:bg-white/20"
+                  className="text-white hover:bg-white/20 backdrop-blur-sm"
                   aria-label={isFavourite(`${selectedLocation.latitude}-${selectedLocation.longitude}`) ? 'Remove from favourites' : 'Add to favourites'}
                 >
                   <motion.div
@@ -143,7 +150,7 @@ export default function HomePage() {
                     transition={{ duration: 0.3 }}
                   >
                     <Heart 
-                      className={`h-5 w-5 ${
+                      className={`h-5 w-5 drop-shadow-sm ${
                         isFavourite(`${selectedLocation.latitude}-${selectedLocation.longitude}`) 
                           ? 'fill-red-500 text-red-500' 
                           : 'text-white'
@@ -156,16 +163,16 @@ export default function HomePage() {
             
             <Link href="/favourites">
               <motion.div whileTap={{ scale: 0.95 }}>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
-                  <Star className="h-5 w-5" />
+                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 backdrop-blur-sm">
+                  <Star className="h-5 w-5 drop-shadow-sm" />
                 </Button>
               </motion.div>
             </Link>
             
             <Link href="/settings">
               <motion.div whileTap={{ scale: 0.95 }}>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
-                  <Settings className="h-5 w-5" />
+                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 backdrop-blur-sm">
+                  <Settings className="h-5 w-5 drop-shadow-sm" />
                 </Button>
               </motion.div>
             </Link>
@@ -194,8 +201,8 @@ export default function HomePage() {
               exit={{ opacity: 0 }}
               className="flex items-center justify-center py-20"
             >
-              <Loader2 className="h-8 w-8 animate-spin text-white mr-3" />
-              <span className="text-white text-lg">Loading weather data...</span>
+              <Loader2 className="h-8 w-8 animate-spin text-white mr-3 drop-shadow-sm" />
+              <span className="text-white text-lg drop-shadow-sm">Loading weather data...</span>
             </motion.div>
           )}
 
@@ -207,8 +214,8 @@ export default function HomePage() {
               exit={{ opacity: 0, y: -20 }}
               className="text-center py-20"
             >
-              <div className="text-white text-lg mb-4">Failed to load weather data</div>
-              <Button onClick={() => refetch()} variant="outline" className="text-white border-white hover:bg-white/20">
+              <div className="text-white text-lg mb-4 drop-shadow-sm">Failed to load weather data</div>
+              <Button onClick={() => refetch()} variant="outline" className="text-white border-white hover:bg-white/20 backdrop-blur-sm">
                 Try Again
               </Button>
             </motion.div>
@@ -258,7 +265,7 @@ export default function HomePage() {
               className="text-center py-20"
             >
               <motion.div
-                className="text-6xl mb-6"
+                className="text-6xl mb-6 drop-shadow-lg"
                 animate={{ 
                   scale: [1, 1.1, 1],
                   rotate: [0, 5, -5, 0]
@@ -271,8 +278,8 @@ export default function HomePage() {
               >
                 🌤️
               </motion.div>
-              <h2 className="text-3xl font-bold text-white mb-4">Welcome to WeatherNow</h2>
-              <p className="text-white/80 text-lg">Search for a city or use your current location to get started</p>
+              <h2 className="text-3xl font-bold text-white mb-4 drop-shadow-lg">Welcome to WeatherNow</h2>
+              <p className="text-white/90 text-lg drop-shadow-sm">Search for a city or use your current location to get started</p>
             </motion.div>
           )}
         </AnimatePresence>
