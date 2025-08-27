@@ -70,15 +70,15 @@ export default function FavouritesPage() {
   }
 
   return (
-    <motion.div
-      initial="initial"
-      animate="in"
-      exit="out"
-      variants={pageVariants}
-      transition={pageTransition}
-      className="min-h-screen bg-gradient-to-br from-purple-500 via-blue-500 to-teal-500"
-    >
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen">
+      <motion.div
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransition}
+        className="container mx-auto px-4 py-8"
+      >
         {/* Header */}
         <motion.header 
           className="flex items-center justify-between mb-8"
@@ -89,12 +89,12 @@ export default function FavouritesPage() {
           <div className="flex items-center space-x-4">
             <Link href="/">
               <motion.div whileTap={{ scale: 0.95 }}>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 backdrop-blur-sm">
                   <ArrowLeft className="h-5 w-5" />
                 </Button>
               </motion.div>
             </Link>
-            <h1 className="text-3xl font-bold text-white">Favourite Locations</h1>
+            <h1 className="text-3xl font-bold text-white drop-shadow-lg">Favourite Locations</h1>
           </div>
           
           <motion.div
@@ -103,8 +103,8 @@ export default function FavouritesPage() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3 }}
           >
-            <Heart className="h-5 w-5 fill-red-500 text-red-500" />
-            <span>{favourites.length} saved</span>
+            <Heart className="h-5 w-5 fill-red-500 text-red-500 drop-shadow-sm" />
+            <span className="drop-shadow-sm">{favourites.length} saved</span>
           </motion.div>
         </motion.header>
 
@@ -119,7 +119,7 @@ export default function FavouritesPage() {
               className="text-center py-20"
             >
               <motion.div
-                className="text-6xl mb-6"
+                className="text-6xl mb-6 drop-shadow-lg"
                 animate={{ 
                   scale: [1, 1.1, 1],
                   rotate: [0, 5, -5, 0]
@@ -132,12 +132,12 @@ export default function FavouritesPage() {
               >
                 💫
               </motion.div>
-              <h2 className="text-2xl font-bold text-white mb-4">No favourite locations yet</h2>
-              <p className="text-white/80 text-lg mb-8">
+              <h2 className="text-2xl font-bold text-white mb-4 drop-shadow-lg">No favourite locations yet</h2>
+              <p className="text-white/80 text-lg mb-8 drop-shadow-sm">
                 Add locations to your favourites from the main page to see them here
               </p>
               <Link href="/">
-                <Button variant="outline" className="text-white border-white hover:bg-white/20">
+                <Button variant="outline" className="text-white border-white hover:bg-white/20 backdrop-blur-sm">
                   Explore Weather
                 </Button>
               </Link>
@@ -166,7 +166,7 @@ export default function FavouritesPage() {
                     whileTap={{ scale: 0.98 }}
                   >
                     <Card 
-                      className="glass border-0 cursor-pointer overflow-hidden group"
+                      className="glass border-0 cursor-pointer overflow-hidden group backdrop-blur-md"
                       onClick={() => handleLocationSelect(location)}
                     >
                       <CardContent className="p-6">
@@ -182,14 +182,14 @@ export default function FavouritesPage() {
                                 repeatType: "reverse"
                               }}
                             >
-                              <MapPin className="h-5 w-5 text-blue-300" />
+                              <MapPin className="h-5 w-5 text-blue-300 drop-shadow-sm" />
                             </motion.div>
                             <div>
-                              <h3 className="font-semibold text-white text-lg group-hover:text-blue-200 transition-colors">
+                              <h3 className="font-semibold text-white text-lg group-hover:text-blue-200 transition-colors drop-shadow-sm">
                                 {location.name}
                               </h3>
                               {location.country && (
-                                <p className="text-white/60 text-sm">
+                                <p className="text-white/60 text-sm drop-shadow-sm">
                                   {location.country}
                                 </p>
                               )}
@@ -201,7 +201,7 @@ export default function FavouritesPage() {
                               onClick={(e) => handleRemoveFavourite(location.id, e)}
                               variant="ghost"
                               size="sm"
-                              className="text-white/60 hover:text-red-400 hover:bg-red-500/20"
+                              className="text-white/60 hover:text-red-400 hover:bg-red-500/20 backdrop-blur-sm"
                               aria-label={`Remove ${location.name} from favourites`}
                             >
                               <Trash2 className="h-4 w-4" />
@@ -210,7 +210,7 @@ export default function FavouritesPage() {
                         </div>
                         
                         <motion.div 
-                          className="text-white/80 text-sm"
+                          className="text-white/80 text-sm drop-shadow-sm"
                           initial={{ opacity: 0.6 }}
                           whileHover={{ opacity: 1 }}
                         >
@@ -224,7 +224,7 @@ export default function FavouritesPage() {
                           whileHover={{ opacity: 1 }}
                           transition={{ duration: 0.2 }}
                         >
-                          <span className="text-blue-200 text-sm">Click to view weather →</span>
+                          <span className="text-blue-200 text-sm drop-shadow-sm">Click to view weather →</span>
                         </motion.div>
                       </CardContent>
                     </Card>
@@ -234,7 +234,7 @@ export default function FavouritesPage() {
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   )
 }

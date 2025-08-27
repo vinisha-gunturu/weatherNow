@@ -67,7 +67,7 @@ export default function SettingsPage() {
       onClick={onClick}
       whileTap={{ scale: 0.95 }}
       whileHover={{ scale: 1.02 }}
-      className={`px-4 py-2 rounded-lg transition-all duration-200 ${
+      className={`px-4 py-2 rounded-lg transition-all duration-200 backdrop-blur-sm ${
         active 
           ? 'bg-white text-blue-600 shadow-lg' 
           : 'bg-white/20 text-white hover:bg-white/30'
@@ -87,11 +87,11 @@ export default function SettingsPage() {
     label: string 
   }) => (
     <div className="flex items-center justify-between">
-      <span className="text-white font-medium">{label}</span>
+      <span className="text-white font-medium drop-shadow-sm">{label}</span>
       <motion.button
         onClick={() => onChange(!enabled)}
         whileTap={{ scale: 0.95 }}
-        className={`relative w-12 h-6 rounded-full transition-colors duration-200 ${
+        className={`relative w-12 h-6 rounded-full transition-colors duration-200 backdrop-blur-sm ${
           enabled ? 'bg-blue-500' : 'bg-white/30'
         }`}
       >
@@ -105,15 +105,15 @@ export default function SettingsPage() {
   )
 
   return (
-    <motion.div
-      initial="initial"
-      animate="in"
-      exit="out"
-      variants={pageVariants}
-      transition={pageTransition}
-      className="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500"
-    >
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen">
+      <motion.div
+        initial="initial"
+        animate="in"
+        exit="out"
+        variants={pageVariants}
+        transition={pageTransition}
+        className="container mx-auto px-4 py-8"
+      >
         {/* Header */}
         <motion.header 
           className="flex items-center justify-between mb-8"
@@ -124,12 +124,12 @@ export default function SettingsPage() {
           <div className="flex items-center space-x-4">
             <Link href="/">
               <motion.div whileTap={{ scale: 0.95 }}>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20">
+                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 backdrop-blur-sm">
                   <ArrowLeft className="h-5 w-5" />
                 </Button>
               </motion.div>
             </Link>
-            <h1 className="text-3xl font-bold text-white">Settings</h1>
+            <h1 className="text-3xl font-bold text-white drop-shadow-lg">Settings</h1>
           </div>
           
           <motion.div
@@ -137,7 +137,7 @@ export default function SettingsPage() {
             animate={{ opacity: 1, rotate: 360 }}
             transition={{ delay: 0.3, duration: 0.6 }}
           >
-            <Zap className="h-6 w-6 text-yellow-300" />
+            <Zap className="h-6 w-6 text-yellow-300 drop-shadow-lg" />
           </motion.div>
         </motion.header>
 
@@ -150,9 +150,9 @@ export default function SettingsPage() {
         >
           {/* Temperature Unit */}
           <motion.div variants={cardVariants}>
-            <Card className="glass border-0">
+            <Card className="glass border-0 backdrop-blur-md">
               <CardHeader>
-                <CardTitle className="text-white flex items-center space-x-3">
+                <CardTitle className="text-white flex items-center space-x-3 drop-shadow-sm">
                   <Thermometer className="h-5 w-5" />
                   <span>Temperature Unit</span>
                 </CardTitle>
@@ -178,9 +178,9 @@ export default function SettingsPage() {
 
           {/* Theme */}
           <motion.div variants={cardVariants}>
-            <Card className="glass border-0">
+            <Card className="glass border-0 backdrop-blur-md">
               <CardHeader>
-                <CardTitle className="text-white flex items-center space-x-3">
+                <CardTitle className="text-white flex items-center space-x-3 drop-shadow-sm">
                   <Palette className="h-5 w-5" />
                   <span>Theme</span>
                 </CardTitle>
@@ -212,9 +212,9 @@ export default function SettingsPage() {
 
           {/* Location Settings */}
           <motion.div variants={cardVariants}>
-            <Card className="glass border-0">
+            <Card className="glass border-0 backdrop-blur-md">
               <CardHeader>
-                <CardTitle className="text-white flex items-center space-x-3">
+                <CardTitle className="text-white flex items-center space-x-3 drop-shadow-sm">
                   <MapPin className="h-5 w-5" />
                   <span>Location</span>
                 </CardTitle>
@@ -225,7 +225,7 @@ export default function SettingsPage() {
                   onChange={setUseGeolocation}
                   label="Auto-detect current location"
                 />
-                <p className="text-white/70 text-sm">
+                <p className="text-white/70 text-sm drop-shadow-sm">
                   When enabled, the app will automatically use your current location when you visit the homepage.
                 </p>
               </CardContent>
@@ -234,12 +234,12 @@ export default function SettingsPage() {
 
           {/* App Info */}
           <motion.div variants={cardVariants}>
-            <Card className="glass border-0">
+            <Card className="glass border-0 backdrop-blur-md">
               <CardHeader>
-                <CardTitle className="text-white">About WeatherNow</CardTitle>
+                <CardTitle className="text-white drop-shadow-sm">About WeatherNow</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <div className="text-white/80 space-y-2">
+                <div className="text-white/80 space-y-2 drop-shadow-sm">
                   <p><span className="font-medium">Version:</span> 1.0.0</p>
                   <p><span className="font-medium">Data Source:</span> Open-Meteo API</p>
                   <p><span className="font-medium">Features:</span> PWA Support, Offline Mode, Animations</p>
@@ -250,8 +250,8 @@ export default function SettingsPage() {
                   whileHover={{ scale: 1.05 }}
                   transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <div className="text-2xl mb-2">🌤️</div>
-                  <p className="text-white/60 text-sm">
+                  <div className="text-2xl mb-2 drop-shadow-lg">🌤️</div>
+                  <p className="text-white/60 text-sm drop-shadow-sm">
                     Built with modern web technologies for the best weather experience
                   </p>
                 </motion.div>
@@ -259,7 +259,7 @@ export default function SettingsPage() {
             </Card>
           </motion.div>
         </motion.div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   )
 }
