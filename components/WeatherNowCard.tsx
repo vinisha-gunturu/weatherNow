@@ -92,15 +92,15 @@ export function WeatherNowCard({ weatherData, locationName, className }: Weather
         role="region"
         aria-label={`Current weather for ${locationName}`}
       >
-        <CardContent className="p-8">
-          <motion.div variants={itemVariants} className="text-center mb-6">
-            <h2 
-              className="text-2xl font-bold text-white mb-1"
+        <CardContent className="p-3 sm:p-4 md:p-6">
+          <motion.div variants={itemVariants} className="text-center mb-3 sm:mb-4">
+            <h2
+              className="text-xl sm:text-2xl font-bold text-white mb-1"
               id="location-name"
             >
               {locationName}
             </h2>
-            <p className="text-white/80 text-sm">
+            <p className="text-white/80 text-xs sm:text-sm">
               <time dateTime={current.time}>
                 {new Date(current.time).toLocaleString('en-US', {
                   weekday: 'long',
@@ -112,14 +112,14 @@ export function WeatherNowCard({ weatherData, locationName, className }: Weather
             </p>
           </motion.div>
 
-          <motion.div 
-            variants={itemVariants} 
-            className="flex items-center justify-center mb-6"
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col sm:flex-row items-center justify-center mb-3 sm:mb-4"
             role="img"
             aria-label={`Weather condition: ${getWeatherDescription(current.weather_code)}`}
           >
-            <motion.div 
-              className="text-6xl mr-4"
+            <motion.div
+              className="text-4xl sm:text-5xl lg:text-6xl mb-2 sm:mb-0 sm:mr-4"
               animate={{ 
                 scale: [1, 1.1, 1],
                 rotate: [0, 5, -5, 0]
@@ -134,15 +134,15 @@ export function WeatherNowCard({ weatherData, locationName, className }: Weather
             >
               {weatherIcon}
             </motion.div>
-            <motion.div variants={temperatureVariants}>
-              <div 
-                className="text-6xl font-light text-white"
+            <motion.div variants={temperatureVariants} className="text-center sm:text-left">
+              <div
+                className="text-4xl sm:text-5xl lg:text-6xl font-light text-white"
                 aria-label={`Temperature ${formatTemperature(current.temperature_2m, temperatureUnit)}`}
               >
                 {formatTemperature(current.temperature_2m, temperatureUnit)}
               </div>
-              <div 
-                className="text-white/80 text-sm"
+              <div
+                className="text-white/80 text-xs sm:text-sm"
                 aria-label={`Feels like ${formatTemperature(current.apparent_temperature, temperatureUnit)}`}
               >
                 Feels like {formatTemperature(current.apparent_temperature, temperatureUnit)}
@@ -150,60 +150,60 @@ export function WeatherNowCard({ weatherData, locationName, className }: Weather
             </motion.div>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             variants={itemVariants}
-            className="grid grid-cols-2 gap-4 mt-8"
+            className="grid grid-cols-2 gap-2 sm:gap-3 mt-4 sm:mt-6"
             role="list"
             aria-label="Weather details"
           >
-            <motion.div 
-              className="text-center p-4 rounded-lg bg-white/10"
+            <motion.div
+              className="text-center p-3 sm:p-4 rounded-lg bg-white/10 touch-manipulation"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
               role="listitem"
               tabIndex={0}
               aria-label={`Humidity: ${current.relative_humidity_2m} percent`}
             >
-              <div className="text-white/80 text-sm mb-1">Humidity</div>
-              <div className="text-xl font-semibold text-white">
+              <div className="text-white/80 text-xs sm:text-sm mb-1">Humidity</div>
+              <div className="text-lg sm:text-xl font-semibold text-white">
                 {current.relative_humidity_2m}%
               </div>
             </motion.div>
 
-            <motion.div 
-              className="text-center p-4 rounded-lg bg-white/10"
+            <motion.div
+              className="text-center p-3 sm:p-4 rounded-lg bg-white/10 touch-manipulation"
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 300 }}
               role="listitem"
               tabIndex={0}
               aria-label={`Wind speed: ${Math.round(current.wind_speed_10m)} kilometers per hour`}
             >
-              <div className="text-white/80 text-sm mb-1">Wind Speed</div>
-              <div className="text-xl font-semibold text-white">
+              <div className="text-white/80 text-xs sm:text-sm mb-1">Wind Speed</div>
+              <div className="text-lg sm:text-xl font-semibold text-white">
                 {Math.round(current.wind_speed_10m)} km/h
               </div>
             </motion.div>
           </motion.div>
 
           {weatherData.daily && (
-            <motion.div 
+            <motion.div
               variants={itemVariants}
-              className="mt-6 text-center"
+              className="mt-4 sm:mt-6 text-center"
               role="complementary"
               aria-label="Sunrise and sunset times"
             >
-              <div className="flex justify-between text-white/80 text-sm">
-                <span>
+              <div className="flex flex-col sm:flex-row justify-between text-white/80 text-xs sm:text-sm space-y-1 sm:space-y-0">
+                <span className="flex items-center justify-center sm:justify-start">
                   <span className="sr-only">Sunrise at </span>
-                  Sunrise: {new Date(weatherData.daily.sunrise[0]).toLocaleTimeString('en-US', {
+                  🌅 Sunrise: {new Date(weatherData.daily.sunrise[0]).toLocaleTimeString('en-US', {
                     hour: 'numeric',
                     minute: '2-digit',
                     hour12: true
                   })}
                 </span>
-                <span>
+                <span className="flex items-center justify-center sm:justify-end">
                   <span className="sr-only">Sunset at </span>
-                  Sunset: {new Date(weatherData.daily.sunset[0]).toLocaleTimeString('en-US', {
+                  🌇 Sunset: {new Date(weatherData.daily.sunset[0]).toLocaleTimeString('en-US', {
                     hour: 'numeric',
                     minute: '2-digit',
                     hour12: true

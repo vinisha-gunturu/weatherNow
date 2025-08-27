@@ -67,16 +67,20 @@ export function HourlyForecast({ weatherData, className }: HourlyForecastProps) 
       animate="visible"
     >
       <Card className="glass border-0">
-        <CardHeader>
-          <CardTitle className="text-white">24-Hour Forecast</CardTitle>
+        <CardHeader className="pb-2 sm:pb-3">
+          <CardTitle className="text-white text-base sm:text-lg">24-Hour Forecast</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-2 sm:px-4">
           <motion.div
-            className="flex overflow-x-auto overflow-y-hidden space-x-4 pb-4 scrollbar-hide"
+            className="flex overflow-x-auto overflow-y-hidden space-x-2 sm:space-x-3 pb-3 scrollbar-hide -mx-2 px-2 sm:mx-0 sm:px-0"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            style={{
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch'
+            }}
           >
             {hourlyData.map((hour, index) => (
               <motion.div
@@ -86,10 +90,10 @@ export function HourlyForecast({ weatherData, className }: HourlyForecastProps) 
                   scale: 1.05,
                   transition: { type: "spring", stiffness: 300 }
                 }}
-                className="flex-shrink-0 text-center p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 min-w-[100px]"
+                className="flex-shrink-0 text-center p-3 sm:p-4 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 min-w-[80px] sm:min-w-[100px] touch-manipulation"
               >
-                <motion.div 
-                  className="text-white/80 text-sm mb-2"
+                <motion.div
+                  className="text-white/80 text-xs sm:text-sm mb-2"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ delay: index * 0.05 }}
@@ -97,12 +101,12 @@ export function HourlyForecast({ weatherData, className }: HourlyForecastProps) 
                   {index === 0 ? 'Now' : formatTime(hour.time)}
                 </motion.div>
                 
-                <motion.div 
-                  className="text-2xl mb-2"
-                  animate={{ 
+                <motion.div
+                  className="text-xl sm:text-2xl mb-2"
+                  animate={{
                     scale: [1, 1.1, 1],
                   }}
-                  transition={{ 
+                  transition={{
                     duration: 2,
                     repeat: Infinity,
                     repeatType: "reverse",
@@ -112,22 +116,22 @@ export function HourlyForecast({ weatherData, className }: HourlyForecastProps) 
                   {getWeatherIcon(hour.weatherCode)}
                 </motion.div>
                 
-                <motion.div 
-                  className="font-semibold text-white text-lg"
+                <motion.div
+                  className="font-semibold text-white text-sm sm:text-lg"
                   initial={{ scale: 0.8 }}
                   animate={{ scale: 1 }}
-                  transition={{ 
-                    type: "spring", 
+                  transition={{
+                    type: "spring",
                     stiffness: 200,
-                    delay: index * 0.05 
+                    delay: index * 0.05
                   }}
                 >
                   {formatTemperature(hour.temperature, temperatureUnit)}
                 </motion.div>
                 
                 {hour.precipitation > 0 && (
-                  <motion.div 
-                    className="text-white/60 text-xs mt-1"
+                  <motion.div
+                    className="text-white/60 text-[10px] sm:text-xs mt-1"
                     initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 + 0.2 }}

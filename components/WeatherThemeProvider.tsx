@@ -40,20 +40,20 @@ export function WeatherThemeProvider({ children }: WeatherThemeProviderProps) {
 
   const getBackgroundGradient = (theme: string, isDay: boolean) => {
     const baseGradients = {
-      sunny: isDay 
-        ? 'linear-gradient(135deg, #FEF3C7 0%, #F59E0B 50%, #F97316 100%)'
+      sunny: isDay
+        ? 'linear-gradient(135deg, #F97316 0%, #EA580C 50%, #DC2626 100%)'
         : 'linear-gradient(135deg, #1E1B4B 0%, #312E81 50%, #3730A3 100%)',
       cloudy: isDay
-        ? 'linear-gradient(135deg, #F3F4F6 0%, #9CA3AF 50%, #6B7280 100%)'
-        : 'linear-gradient(135deg, #1F2937 0%, #374151 50%, #4B5563 100%)',
+        ? 'linear-gradient(135deg, #64748B 0%, #475569 50%, #334155 100%)'
+        : 'linear-gradient(135deg, #1E293B 0%, #334155 50%, #475569 100%)',
       rainy: isDay
-        ? 'linear-gradient(135deg, #DBEAFE 0%, #3B82F6 50%, #1D4ED8 100%)'
+        ? 'linear-gradient(135deg, #3B82F6 0%, #2563EB 50%, #1D4ED8 100%)'
         : 'linear-gradient(135deg, #1E3A8A 0%, #1E40AF 50%, #1D4ED8 100%)',
       snowy: isDay
-        ? 'linear-gradient(135deg, #F9FAFB 0%, #E5E7EB 50%, #D1D5DB 100%)'
+        ? 'linear-gradient(135deg, #94A3B8 0%, #64748B 50%, #475569 100%)'
         : 'linear-gradient(135deg, #374151 0%, #4B5563 50%, #6B7280 100%)',
       stormy: isDay
-        ? 'linear-gradient(135deg, #EDE9FE 0%, #7C3AED 50%, #4C1D95 100%)'
+        ? 'linear-gradient(135deg, #7C3AED 0%, #5B21B6 50%, #4C1D95 100%)'
         : 'linear-gradient(135deg, #1E1B4B 0%, #3730A3 50%, #1D4ED8 100%)',
     }
     

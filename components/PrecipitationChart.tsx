@@ -1,12 +1,12 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
-import { 
-  BarChart, 
-  Bar, 
-  XAxis, 
-  YAxis, 
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
   ResponsiveContainer,
   Tooltip,
   Cell
@@ -22,9 +22,23 @@ interface PrecipitationChartProps {
 
 export function PrecipitationChart({ weatherData, className }: PrecipitationChartProps) {
   const [animationProgress, setAnimationProgress] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
 
-  // Prepare chart data for next 24 hours
-  const chartData = weatherData.hourly.time.slice(0, 24).map((time, index) => ({
+  // Check screen size for responsive behavior
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsMobile(window.innerWidth < 768)
+      setIsTablet(window.innerWidth >= 768 && window.innerWidth < 1024)
+    }
+
+    checkScreenSize()
+    window.addEventListener('resize', checkScreenSize)
+    return () => window.removeEventListener('resize', checkScreenSize)
+  }, [])
+
+  // Prepare chart data for next 24 hours with responsive data points
+  const chartData = weatherData.hourly.time.slice(0, isMobile ? 12 : 24).map((time, index) => ({
     time: formatTime(time),
     precipitation: weatherData.hourly.precipitation_probability[index],
     hour: new Date(time).getHours(),
@@ -37,23 +51,24 @@ export function PrecipitationChart({ weatherData, className }: PrecipitationChar
     return () => clearTimeout(timer)
   }, [])
 
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = useCallback(({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="bg-black/80 backdrop-blur-sm text-white p-3 rounded-lg border border-white/20"
+          className="bg-black/90 backdrop-blur-sm text-white p-2 sm:p-3 rounded-lg border border-white/20 text-xs sm:text-sm max-w-xs"
+          style={{ zIndex: 1000 }}
         >
-          <p className="font-medium">{label}</p>
-          <p className="text-cyan-300">
-            Precipitation: {payload[0].value}%
+          <p className="font-medium text-xs sm:text-sm truncate">{label}</p>
+          <p className="text-cyan-300 text-xs sm:text-sm">
+            Rain: {payload[0].value}%
           </p>
         </motion.div>
       )
     }
     return null
-  }
+  }, [])
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
@@ -76,28 +91,32 @@ export function PrecipitationChart({ weatherData, className }: PrecipitationChar
   if (chartData.length === 0) {
     return (
       <motion.div
-        className={className}
+        className={`w-full max-w-full transition-all duration-300 ease-in-out ${className || ''}`}
         variants={cardVariants}
         initial="hidden"
         animate="visible"
       >
-        <Card className="glass border-0">
-          <CardHeader>
-            <CardTitle className="text-white">Precipitation Forecast</CardTitle>
+        <Card className="glass border-0 w-full max-w-full overflow-hidden">
+          <CardHeader className="pb-2 sm:pb-3 px-3 sm:px-4">
+            <CardTitle className="text-white text-sm sm:text-base lg:text-lg truncate">Precipitation Forecast</CardTitle>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-2 sm:px-4 w-full">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.6 }}
-              className="text-center py-8"
+              className={`text-center ${
+                isMobile ? 'py-6' : isTablet ? 'py-7' : 'py-8'
+              }`}
             >
               <motion.div
-                className="text-4xl mb-4"
-                animate={{ 
+                className={`mb-4 ${
+                  isMobile ? 'text-3xl' : isTablet ? 'text-4xl' : 'text-4xl'
+                }`}
+                animate={{
                   scale: [1, 1.1, 1],
                 }}
-                transition={{ 
+                transition={{
                   duration: 2,
                   repeat: Infinity,
                   repeatType: "reverse"
@@ -105,7 +124,9 @@ export function PrecipitationChart({ weatherData, className }: PrecipitationChar
               >
                 ☀️
               </motion.div>
-              <p className="text-white/80">No precipitation expected in the next 24 hours</p>
+              <p className="text-white/80 text-sm sm:text-base px-2">
+                No precipitation expected in the next {isMobile ? '12' : '24'} hours
+              </p>
             </motion.div>
           </CardContent>
         </Card>
@@ -115,47 +136,68 @@ export function PrecipitationChart({ weatherData, className }: PrecipitationChar
 
   return (
     <motion.div
-      className={className}
+      className={`w-full max-w-full transition-all duration-300 ease-in-out ${className || ''}`}
       variants={cardVariants}
       initial="hidden"
       animate="visible"
     >
-      <Card className="glass border-0">
-        <CardHeader>
-          <CardTitle className="text-white">Precipitation Forecast</CardTitle>
+      <Card className="glass border-0 w-full max-w-full overflow-hidden">
+        <CardHeader className="pb-2 sm:pb-3 px-3 sm:px-4">
+          <CardTitle className="text-white text-sm sm:text-base lg:text-lg truncate">Precipitation Forecast</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-2 sm:px-4 w-full">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="h-64"
+            className={`w-full chart-container ${
+              isMobile ? 'h-48' : isTablet ? 'h-52' : 'h-56'
+            }`}
           >
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData}>
-                <XAxis 
-                  dataKey="time" 
+            <ResponsiveContainer width="100%" height="100%" maxHeight={400}>
+              <BarChart
+                data={chartData}
+                margin={{
+                  top: 10,
+                  right: isMobile ? 5 : 10,
+                  left: isMobile ? 5 : 10,
+                  bottom: isMobile ? 50 : 30
+                }}
+              >
+                <XAxis
+                  dataKey="time"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: 'white', fontSize: 12 }}
+                  tick={{
+                    fill: 'white',
+                    fontSize: isMobile ? 9 : isTablet ? 10 : 11,
+                    textAnchor: isMobile ? 'end' : 'middle'
+                  }}
+                  angle={isMobile ? -45 : 0}
+                  height={isMobile ? 50 : 30}
+                  minTickGap={isMobile ? 15 : 20}
                 />
-                
-                <YAxis 
-                  hide 
+
+                <YAxis
+                  hide
                   domain={[0, 100]}
                 />
-                
-                <Tooltip content={<CustomTooltip />} />
-                
-                <Bar 
-                  dataKey="precipitation" 
-                  radius={[4, 4, 0, 0]}
+
+                <Tooltip
+                  content={<CustomTooltip />}
+                  cursor={{ fill: 'rgba(255, 255, 255, 0.1)' }}
+                />
+
+                <Bar
+                  dataKey="precipitation"
+                  radius={[isMobile ? 2 : 4, isMobile ? 2 : 4, 0, 0]}
                   animationDuration={800}
                   animationBegin={200}
+                  maxBarSize={isMobile ? 30 : 50}
                 >
                   {chartData.map((entry, index) => (
-                    <Cell 
-                      key={`cell-${index}`} 
+                    <Cell
+                      key={`cell-${index}`}
                       fill={getBarColor(entry.precipitation)}
                     />
                   ))}

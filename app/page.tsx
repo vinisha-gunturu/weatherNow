@@ -114,82 +114,136 @@ export default function HomePage() {
       exit="out"
       variants={pageVariants}
       transition={pageTransition}
-      className="w-full"
+      className="min-h-screen w-full overflow-x-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900"
     >
-      <div className="w-full px-4 lg:px-8 xl:px-12 py-6">
-        {/* Header */}
-        <motion.header 
-          className="flex items-center justify-between mb-8"
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
-        >
-          <motion.h1 
-            className="text-4xl font-bold text-white drop-shadow-lg"
-            whileHover={{ scale: 1.05 }}
-            transition={{ type: "spring", stiffness: 300 }}
-          >
-            Weather<span className="text-yellow-300">Now</span>
-          </motion.h1>
-          
-          <div className="flex items-center space-x-4">
-            {selectedLocation && (
-              <motion.div whileTap={{ scale: 0.95 }}>
-                <Button
-                  onClick={toggleFavourite}
-                  variant="ghost"
-                  size="icon"
-                  className="text-white hover:bg-white/20 backdrop-blur-sm"
-                  aria-label={isFavourite(`${selectedLocation.latitude}-${selectedLocation.longitude}`) ? 'Remove from favourites' : 'Add to favourites'}
-                >
-                  <motion.div
-                    animate={isFavourite(`${selectedLocation.latitude}-${selectedLocation.longitude}`) ? {
-                      scale: [1, 1.2, 1],
-                      rotate: [0, 10, -10, 0]
-                    } : {}}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <Heart 
-                      className={`h-5 w-5 drop-shadow-sm ${
-                        isFavourite(`${selectedLocation.latitude}-${selectedLocation.longitude}`) 
-                          ? 'fill-red-500 text-red-500' 
-                          : 'text-white'
-                      }`} 
-                    />
-                  </motion.div>
-                </Button>
-              </motion.div>
-            )}
-            
-            <Link href="/favourites">
-              <motion.div whileTap={{ scale: 0.95 }}>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 backdrop-blur-sm">
-                  <Star className="h-5 w-5 drop-shadow-sm" />
-                </Button>
-              </motion.div>
-            </Link>
-            
-            <Link href="/settings">
-              <motion.div whileTap={{ scale: 0.95 }}>
-                <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 backdrop-blur-sm">
-                  <Settings className="h-5 w-5 drop-shadow-sm" />
-                </Button>
-              </motion.div>
-            </Link>
-          </div>
-        </motion.header>
+      {/* Fixed Header */}
+      <motion.header
+        className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10"
+        initial={{ y: -100, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+          <div className="flex flex-col space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0">
+            {/* Logo and Navigation */}
+            <div className="flex items-center justify-between">
+              <motion.h1
+                className="text-xl sm:text-2xl lg:text-3xl font-bold text-white drop-shadow-lg"
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                Weather<span className="text-yellow-300">Now</span>
+              </motion.h1>
 
-        {/* Search Bar */}
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-        >
-          <SearchBar 
-            onLocationSelect={handleLocationSelect}
-            className="max-w-3xl mx-auto mb-8"
-          />
-        </motion.div>
+              <div className="flex items-center space-x-2 lg:hidden">
+                {selectedLocation && (
+                  <motion.div whileTap={{ scale: 0.95 }}>
+                    <Button
+                      onClick={toggleFavourite}
+                      variant="ghost"
+                      size="icon"
+                      className="text-white hover:bg-white/20 backdrop-blur-sm touch-manipulation"
+                      aria-label={isFavourite(`${selectedLocation.latitude}-${selectedLocation.longitude}`) ? 'Remove from favourites' : 'Add to favourites'}
+                    >
+                      <motion.div
+                        animate={isFavourite(`${selectedLocation.latitude}-${selectedLocation.longitude}`) ? {
+                          scale: [1, 1.2, 1],
+                          rotate: [0, 10, -10, 0]
+                        } : {}}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <Heart
+                          className={`h-4 w-4 drop-shadow-sm ${
+                            isFavourite(`${selectedLocation.latitude}-${selectedLocation.longitude}`)
+                              ? 'fill-red-500 text-red-500'
+                              : 'text-white'
+                          }`}
+                        />
+                      </motion.div>
+                    </Button>
+                  </motion.div>
+                )}
+
+                <Link href="/favourites">
+                  <motion.div whileTap={{ scale: 0.95 }}>
+                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 backdrop-blur-sm touch-manipulation">
+                      <Star className="h-4 w-4 drop-shadow-sm" />
+                    </Button>
+                  </motion.div>
+                </Link>
+
+                <Link href="/settings">
+                  <motion.div whileTap={{ scale: 0.95 }}>
+                    <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 backdrop-blur-sm touch-manipulation">
+                      <Settings className="h-4 w-4 drop-shadow-sm" />
+                    </Button>
+                  </motion.div>
+                </Link>
+              </div>
+            </div>
+
+            {/* Search Bar */}
+            <div className="lg:flex-1 lg:max-w-2xl lg:mx-8">
+              <SearchBar
+                onLocationSelect={handleLocationSelect}
+                className="w-full"
+              />
+            </div>
+
+            {/* Desktop Navigation */}
+            <div className="hidden lg:flex items-center space-x-2">
+              {selectedLocation && (
+                <motion.div whileTap={{ scale: 0.95 }}>
+                  <Button
+                    onClick={toggleFavourite}
+                    variant="ghost"
+                    size="icon"
+                    className="text-white hover:bg-white/20 backdrop-blur-sm touch-manipulation"
+                    aria-label={isFavourite(`${selectedLocation.latitude}-${selectedLocation.longitude}`) ? 'Remove from favourites' : 'Add to favourites'}
+                  >
+                    <motion.div
+                      animate={isFavourite(`${selectedLocation.latitude}-${selectedLocation.longitude}`) ? {
+                        scale: [1, 1.2, 1],
+                        rotate: [0, 10, -10, 0]
+                      } : {}}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <Heart
+                        className={`h-5 w-5 drop-shadow-sm ${
+                          isFavourite(`${selectedLocation.latitude}-${selectedLocation.longitude}`)
+                            ? 'fill-red-500 text-red-500'
+                            : 'text-white'
+                        }`}
+                      />
+                    </motion.div>
+                  </Button>
+                </motion.div>
+              )}
+
+              <Link href="/favourites">
+                <motion.div whileTap={{ scale: 0.95 }}>
+                  <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 backdrop-blur-sm touch-manipulation">
+                    <Star className="h-5 w-5 drop-shadow-sm" />
+                  </Button>
+                </motion.div>
+              </Link>
+
+              <Link href="/settings">
+                <motion.div whileTap={{ scale: 0.95 }}>
+                  <Button variant="ghost" size="icon" className="text-white hover:bg-white/20 backdrop-blur-sm touch-manipulation">
+                    <Settings className="h-5 w-5 drop-shadow-sm" />
+                  </Button>
+                </motion.div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* Main Content */}
+      <main className="pt-24 lg:pt-28 pb-6 min-h-screen">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl transition-all duration-300 ease-in-out">
+
 
         {/* Content */}
         <AnimatePresence mode="wait">
@@ -199,7 +253,7 @@ export default function HomePage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex items-center justify-center py-20"
+              className="flex items-center justify-center py-12 sm:py-16"
             >
               <Loader2 className="h-8 w-8 animate-spin text-white mr-3 drop-shadow-sm" />
               <span className="text-white text-lg drop-shadow-sm">Loading weather data...</span>
@@ -212,7 +266,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="text-center py-20"
+              className="text-center py-12 sm:py-16"
             >
               <div className="text-white text-lg mb-4 drop-shadow-sm">Failed to load weather data</div>
               <Button onClick={() => refetch()} variant="outline" className="text-white border-white hover:bg-white/20 backdrop-blur-sm">
@@ -227,32 +281,101 @@ export default function HomePage() {
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="grid gap-4 lg:gap-6 w-full"
+              className="w-full max-w-none transition-all duration-300 ease-in-out"
             >
-              {/* Current Weather */}
-              <WeatherNowCard
-                weatherData={weatherData}
-                locationName={selectedLocation.name}
-                className="col-span-full"
-              />
+              {/* Mobile: Single Column Layout */}
+              <div className="block md:hidden space-y-4">
+                {/* Current Weather - Full Width */}
+                <WeatherNowCard
+                  weatherData={weatherData}
+                  locationName={selectedLocation.name}
+                  className="w-full"
+                />
 
-              {/* Charts Row */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
-                <TemperatureChart weatherData={weatherData} />
-                <PrecipitationChart weatherData={weatherData} />
+                {/* Charts - Stacked */}
+                <div className="space-y-4">
+                  <TemperatureChart weatherData={weatherData} className="w-full" />
+                  <PrecipitationChart weatherData={weatherData} className="w-full" />
+                </div>
+
+                {/* Hourly Forecast - Horizontal Scroll */}
+                <HourlyForecast
+                  weatherData={weatherData}
+                  className="w-full"
+                />
+
+                {/* Daily Forecast */}
+                <DailyForecastCard
+                  weatherData={weatherData}
+                  className="w-full"
+                />
               </div>
 
-              {/* Hourly Forecast */}
-              <HourlyForecast
-                weatherData={weatherData}
-                className="col-span-full"
-              />
+              {/* Tablet: Two Column Layout (768px - 1023px) */}
+              <div className="hidden md:block lg:hidden">
+                <div className="grid grid-cols-1 gap-4 mb-4">
+                  {/* Current Weather - Full Width */}
+                  <WeatherNowCard
+                    weatherData={weatherData}
+                    locationName={selectedLocation.name}
+                    className="col-span-1"
+                  />
+                </div>
 
-              {/* Daily Forecast */}
-              <DailyForecastCard
-                weatherData={weatherData}
-                className="col-span-full"
-              />
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  {/* Charts Side by Side */}
+                  <TemperatureChart weatherData={weatherData} className="col-span-1" />
+                  <PrecipitationChart weatherData={weatherData} className="col-span-1" />
+                </div>
+
+                <div className="grid grid-cols-1 gap-4">
+                  {/* Hourly and Daily Forecasts */}
+                  <HourlyForecast
+                    weatherData={weatherData}
+                    className="col-span-1"
+                  />
+                  <DailyForecastCard
+                    weatherData={weatherData}
+                    className="col-span-1"
+                  />
+                </div>
+              </div>
+
+              {/* Desktop: Multi-Column Layout (≥1024px) */}
+              <div className="hidden lg:block">
+                <div className="grid grid-cols-12 gap-6">
+                  {/* Current Weather - Spans full width */}
+                  <div className="col-span-12">
+                    <WeatherNowCard
+                      weatherData={weatherData}
+                      locationName={selectedLocation.name}
+                      className="w-full"
+                    />
+                  </div>
+
+                  {/* Charts Row - Side by Side */}
+                  <div className="col-span-6">
+                    <TemperatureChart weatherData={weatherData} className="w-full h-full" />
+                  </div>
+                  <div className="col-span-6">
+                    <PrecipitationChart weatherData={weatherData} className="w-full h-full" />
+                  </div>
+
+                  {/* Forecasts Row */}
+                  <div className="col-span-7">
+                    <HourlyForecast
+                      weatherData={weatherData}
+                      className="w-full h-full"
+                    />
+                  </div>
+                  <div className="col-span-5">
+                    <DailyForecastCard
+                      weatherData={weatherData}
+                      className="w-full h-full"
+                    />
+                  </div>
+                </div>
+              </div>
             </motion.div>
           )}
 
@@ -262,10 +385,10 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="text-center py-20"
+              className="text-center py-12 sm:py-16"
             >
               <motion.div
-                className="text-6xl mb-6 drop-shadow-lg"
+                className="text-4xl sm:text-5xl lg:text-6xl mb-4 sm:mb-6 drop-shadow-lg"
                 animate={{ 
                   scale: [1, 1.1, 1],
                   rotate: [0, 5, -5, 0]
@@ -278,12 +401,13 @@ export default function HomePage() {
               >
                 🌤️
               </motion.div>
-              <h2 className="text-3xl font-bold text-white mb-4 drop-shadow-lg">Welcome to WeatherNow</h2>
-              <p className="text-white/90 text-lg drop-shadow-sm">Search for a city or use your current location to get started</p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mb-4 drop-shadow-lg">Welcome to WeatherNow</h2>
+              <p className="text-white/90 text-base sm:text-lg drop-shadow-sm px-4 sm:px-0">Search for a city or use your current location to get started</p>
             </motion.div>
           )}
         </AnimatePresence>
-      </div>
+        </div>
+      </main>
     </motion.div>
   )
 }

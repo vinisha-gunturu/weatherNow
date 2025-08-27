@@ -95,14 +95,16 @@
   }
   
   .glass {
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   }
-  
+
   .dark .glass {
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
   }
   
   /* Screen reader only content */
@@ -135,10 +137,25 @@
       background: rgba(255, 255, 255, 0.9);
       border: 2px solid #000;
     }
-    
+
     .dark .glass {
       background: rgba(0, 0, 0, 0.9);
       border: 2px solid #fff;
+    }
+  }
+
+  /* Mobile viewport fixes */
+  @supports (-webkit-touch-callout: none) {
+    .min-h-screen {
+      min-height: -webkit-fill-available;
+    }
+  }
+
+  /* Better text readability on mobile */
+  @media (max-width: 640px) {
+    body {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
     }
   }
   
@@ -151,19 +168,141 @@
     will-change: opacity;
   }
 
-  /* Responsive container utilities */
+  /* Enhanced responsive container utilities */
   .responsive-container {
     width: 100%;
     max-width: 100vw;
     overflow-x: hidden;
+    transition: all 0.3s ease-in-out;
   }
 
-  /* Mobile-first responsive design */
-  @media (max-width: 640px) {
+  /* Mobile-first responsive design with proper breakpoints */
+  .container {
+    width: 100%;
+    max-width: 100vw;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Mobile (<768px) */
+  @media (max-width: 767px) {
     .container {
-      padding-left: 1rem;
-      padding-right: 1rem;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
     }
+  }
+
+  /* Tablet (768px - 1023px) */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .container {
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      max-width: 768px;
+    }
+  }
+
+  /* Desktop (≥1024px) */
+  @media (min-width: 1024px) {
+    .container {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      max-width: 1200px;
+    }
+  }
+
+  /* Large Desktop (≥1280px) */
+  @media (min-width: 1280px) {
+    .container {
+      max-width: 1400px;
+    }
+  }
+
+  /* Maximize screen usage */
+  .full-width-container {
+    width: 100%;
+    max-width: 100vw;
+    margin: 0 auto;
+    overflow-x: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Responsive grid utilities */
+  .responsive-grid {
+    display: grid;
+    width: 100%;
+    gap: 1rem;
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Mobile: Single column */
+  @media (max-width: 767px) {
+    .responsive-grid {
+      grid-template-columns: 1fr;
+      gap: 0.75rem;
+    }
+  }
+
+  /* Tablet: Two columns */
+  @media (min-width: 768px) and (max-width: 1023px) {
+    .responsive-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+
+  /* Desktop: Multi-column */
+  @media (min-width: 1024px) {
+    .responsive-grid {
+      grid-template-columns: repeat(12, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  /* Touch-friendly interface with responsive sizing */
+  .touch-manipulation {
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: all 0.3s ease-in-out;
+  }
+
+  /* Responsive touch targets */
+  @media (max-width: 767px) {
+    .touch-manipulation {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+
+  /* Better scrolling on mobile */
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
   
   /* Weather icon optimization */
@@ -172,15 +311,69 @@
   }
 }
 
-/* Smooth scrolling for better UX */
+/* Smooth scrolling for better UX and prevent horizontal overflow */
 html {
   scroll-behavior: smooth;
   overflow-x: hidden;
+  font-size: 16px;
+  width: 100%;
+  max-width: 100vw;
+}
+
+@media (max-width: 1023px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 767px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
 }
 
 body {
   overflow-x: hidden;
   max-width: 100vw;
+  width: 100%;
+  line-height: 1.5;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Global responsive container */
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* Prevent horizontal scrolling globally */
+*,
+*::before,
+*::after {
+  overflow-x: hidden;
+}
+
+/* Improve touch target sizes on mobile */
+@media (max-width: 640px) {
+  button,
+  a,
+  [role="button"],
+  [tabindex] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  input,
+  textarea,
+  select {
+    min-height: 44px;
+  }
 }
 
 /* Reduce motion for accessibility */
@@ -201,10 +394,214 @@ body {
     background: white;
     color: black;
   }
-  
+
   .dark body {
     background: black;
     color: white;
+  }
+}
+
+/* Enhanced responsive breakpoint handling */
+
+/* Mobile Portrait (<768px) */
+@media (max-width: 767px) {
+  .responsive-text {
+    font-size: 0.875rem;
+    line-height: 1.4;
+  }
+
+  .responsive-spacing {
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+  }
+
+  /* Stack elements vertically */
+  .stack-mobile {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .responsive-text {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .responsive-spacing {
+    padding: 1rem;
+    margin: 0.75rem 0;
+  }
+
+  /* Two-column layout */
+  .two-col-tablet {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 1rem !important;
+  }
+}
+
+/* Desktop (≥1024px) */
+@media (min-width: 1024px) {
+  .responsive-text {
+    font-size: 1.125rem;
+    line-height: 1.6;
+  }
+
+  .responsive-spacing {
+    padding: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  /* Multi-column layout */
+  .multi-col-desktop {
+    display: grid !important;
+    grid-template-columns: repeat(12, 1fr) !important;
+    gap: 1.5rem !important;
+  }
+}
+
+/* Mobile landscape optimization */
+@media (orientation: landscape) and (max-height: 640px) {
+  .container {
+    padding: 0.5rem 0.75rem;
+  }
+
+  .responsive-spacing {
+    padding: 0.5rem;
+    margin: 0.25rem 0;
+  }
+
+  /* Reduce header size in landscape */
+  header {
+    padding: 0.5rem 0;
+  }
+}
+
+/* Large screens optimization */
+@media (min-width: 1536px) {
+  .container {
+    max-width: 1400px;
+  }
+
+  .responsive-text {
+    font-size: 1.25rem;
+  }
+}
+
+/* Improve text contrast */
+.text-white {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Enhanced button interactions with responsive design */
+button {
+  transition: all 0.3s ease-in-out;
+  max-width: 100%;
+}
+
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Responsive button sizing */
+@media (max-width: 767px) {
+  button {
+    min-height: 44px;
+    font-size: 0.875rem;
+    padding: 0.75rem 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  button {
+    min-height: 40px;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+}
+
+/* Prevent horizontal scrolling globally */
+@media (max-width: 360px) {
+  * {
+    max-width: 100% !important;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  .container {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+}
+
+/* Enhanced responsive utilities */
+.responsive-flex {
+  display: flex;
+  transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 767px) {
+  .responsive-flex {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-flex {
+    flex-direction: row;
+    gap: 1rem;
+  }
+}
+
+/* Responsive cards */
+.responsive-card {
+  width: 100%;
+  max-width: 100%;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+}
+
+@media (max-width: 767px) {
+  .responsive-card {
+    margin: 0.5rem 0;
+    border-radius: 0.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .responsive-card {
+    margin: 0.75rem 0;
+    border-radius: 0.75rem;
+  }
+}
+
+/* Responsive text sizing */
+.responsive-heading {
+  transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 767px) {
+  .responsive-heading {
+    font-size: 1.5rem;
+    line-height: 1.3;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .responsive-heading {
+    font-size: 1.875rem;
+    line-height: 1.4;
+  }
+}
+
+@media (min-width: 1024px) {
+  .responsive-heading {
+    font-size: 2.25rem;
+    line-height: 1.5;
   }
 }
 
@@ -224,14 +621,83 @@ body {
   }
 }
 
-/* Loading states optimization */
+/* Loading states optimization with responsive design */
 .loading-shimmer {
   background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
+  transition: all 0.3s ease-in-out;
 }
 
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
+}
+
+/* Responsive chart containers */
+.chart-container {
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
+
+@media (max-width: 767px) {
+  .chart-container {
+    height: 200px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .chart-container {
+    height: 250px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .chart-container {
+    height: 300px;
+  }
+}
+
+/* Responsive horizontal scroll containers */
+.horizontal-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  transition: all 0.3s ease-in-out;
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.horizontal-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.horizontal-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 2px;
+}
+
+@media (max-width: 767px) {
+  .horizontal-scroll {
+    padding: 0.5rem 0;
+  }
+}
+
+/* Global transition utilities */
+.smooth-transition {
+  transition: all 0.3s ease-in-out;
+}
+
+.fast-transition {
+  transition: all 0.2s ease-in-out;
+}
+
+.slow-transition {
+  transition: all 0.5s ease-in-out;
 }

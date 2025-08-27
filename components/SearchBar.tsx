@@ -71,13 +71,13 @@ export function SearchBar({ onLocationSelect, className }: SearchBarProps) {
   return (
     <div className={className}>
       <div className="relative">
-        <div className="flex gap-2">
+        <div className="flex gap-2 sm:gap-3">
           <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+            <Search className="absolute left-2 sm:left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search for a city..."
               onChange={handleInputChange}
-              className="pl-10 pr-4"
+              className="pl-8 sm:pl-10 pr-3 sm:pr-4 text-sm sm:text-base h-10 sm:h-11"
               aria-label="Search for a city"
               aria-expanded={showResults}
               aria-autocomplete="list"
@@ -91,6 +91,7 @@ export function SearchBar({ onLocationSelect, className }: SearchBarProps) {
               disabled={isGettingLocation}
               variant="outline"
               size="icon"
+              className="h-10 w-10 sm:h-11 sm:w-11 touch-manipulation"
               aria-label="Use current location"
             >
               {isGettingLocation ? (
@@ -109,15 +110,15 @@ export function SearchBar({ onLocationSelect, className }: SearchBarProps) {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
               transition={{ duration: 0.2 }}
-              className="absolute top-full left-0 right-0 z-50 mt-2 rounded-lg border bg-popover shadow-md"
+              className="absolute top-full left-0 right-0 z-50 mt-2 rounded-lg border bg-popover shadow-md max-h-[60vh] overflow-hidden"
             >
               {isLoading ? (
-                <div className="flex items-center justify-center p-4">
+                <div className="flex items-center justify-center p-3 sm:p-4">
                   <Loader2 className="h-4 w-4 animate-spin" />
-                  <span className="ml-2 text-sm text-muted-foreground">Searching...</span>
+                  <span className="ml-2 text-xs sm:text-sm text-muted-foreground">Searching...</span>
                 </div>
               ) : searchResults.length > 0 ? (
-                <div className="max-h-60 overflow-y-auto">
+                <div className="max-h-48 sm:max-h-60 overflow-y-auto scrollbar-thin">
                   {searchResults.map((result, index) => (
                     <motion.button
                       key={result.id}
@@ -125,17 +126,17 @@ export function SearchBar({ onLocationSelect, className }: SearchBarProps) {
                       animate={{ opacity: 1 }}
                       transition={{ delay: index * 0.05 }}
                       onClick={() => handleLocationSelect(result)}
-                      className="w-full px-4 py-3 text-left hover:bg-accent transition-colors focus:bg-accent focus:outline-none border-b border-border last:border-b-0"
+                      className="w-full px-3 sm:px-4 py-2 sm:py-3 text-left hover:bg-accent transition-colors focus:bg-accent focus:outline-none border-b border-border last:border-b-0 touch-manipulation"
                     >
-                      <div className="font-medium">{result.name}</div>
-                      <div className="text-sm text-muted-foreground">
+                      <div className="font-medium text-sm sm:text-base truncate">{result.name}</div>
+                      <div className="text-xs sm:text-sm text-muted-foreground truncate">
                         {result.admin1 && `${result.admin1}, `}{result.country}
                       </div>
                     </motion.button>
                   ))}
                 </div>
               ) : (
-                <div className="p-4 text-center text-sm text-muted-foreground">
+                <div className="p-3 sm:p-4 text-center text-xs sm:text-sm text-muted-foreground">
                   No results found
                 </div>
               )}
@@ -154,7 +155,7 @@ export function SearchBar({ onLocationSelect, className }: SearchBarProps) {
               transition: { type: "spring", stiffness: 500, damping: 30 }
             }}
             exit={{ opacity: 0, x: -10 }}
-            className="mt-2 text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md p-2"
+            className="mt-2 text-xs sm:text-sm text-destructive bg-destructive/10 border border-destructive/20 rounded-md p-2 sm:p-3"
           >
             {error}
           </motion.div>
