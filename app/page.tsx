@@ -116,7 +116,7 @@ export default function HomePage() {
       transition={pageTransition}
       className="w-full"
     >
-      <div className="container mx-auto px-4 py-6 max-w-7xl">
+      <div className="w-full px-4 lg:px-8 xl:px-12 py-6">
         {/* Header */}
         <motion.header 
           className="flex items-center justify-between mb-8"
@@ -187,7 +187,7 @@ export default function HomePage() {
         >
           <SearchBar 
             onLocationSelect={handleLocationSelect}
-            className="max-w-2xl mx-auto mb-8"
+            className="max-w-3xl mx-auto mb-8"
           />
         </motion.div>
 

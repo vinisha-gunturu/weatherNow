@@ -112,7 +112,7 @@ export default function SettingsPage() {
         exit="out"
         variants={pageVariants}
         transition={pageTransition}
-        className="container mx-auto px-4 py-6 max-w-7xl"
+        className="w-full px-4 lg:px-8 xl:px-12 py-6"
       >
         {/* Header */}
         <motion.header 
