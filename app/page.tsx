@@ -10,6 +10,8 @@ import { SearchBar } from '@/components/SearchBar'
 import { WeatherNowCard } from '@/components/WeatherNowCard'
 import { HourlyForecast } from '@/components/HourlyForecast'
 import { DailyForecastCard } from '@/components/DailyForecastCard'
+import { TemperatureChart } from '@/components/TemperatureChart'
+import { PrecipitationChart } from '@/components/PrecipitationChart'
 import { Button } from '@/components/ui/button'
 import { WeatherAPI, GeocodingResult } from '@/lib/api'
 import { useWeatherStore, useFavouritesStore, useSettingsStore } from '@/lib/stores'
@@ -92,7 +94,7 @@ export default function HomePage() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.2,
+        staggerChildren: 0.15,
         delayChildren: 0.1
       }
     }
@@ -226,6 +228,12 @@ export default function HomePage() {
                 locationName={selectedLocation.name}
                 className="col-span-full"
               />
+
+              {/* Charts Row */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <TemperatureChart weatherData={weatherData} />
+                <PrecipitationChart weatherData={weatherData} />
+              </div>
 
               {/* Hourly Forecast */}
               <HourlyForecast
