@@ -114,9 +114,9 @@ export default function HomePage() {
       exit="out"
       variants={pageVariants}
       transition={pageTransition}
-      className="min-h-screen"
+      className="w-full"
     >
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-6 max-w-7xl">
         {/* Header */}
         <motion.header 
           className="flex items-center justify-between mb-8"
@@ -227,7 +227,7 @@ export default function HomePage() {
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="grid gap-6 max-w-6xl mx-auto"
+              className="grid gap-4 lg:gap-6 w-full"
             >
               {/* Current Weather */}
               <WeatherNowCard
@@ -237,7 +237,7 @@ export default function HomePage() {
               />
 
               {/* Charts Row */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
                 <TemperatureChart weatherData={weatherData} />
                 <PrecipitationChart weatherData={weatherData} />
               </div>
