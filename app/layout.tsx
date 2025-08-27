@@ -1,4 +1,4 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import '../styles/globals.css'
 import { Providers } from './providers'
@@ -13,13 +13,6 @@ export const metadata: Metadata = {
   description: 'A production-quality weather application with beautiful animations and real-time data',
   keywords: ['weather', 'forecast', 'temperature', 'climate', 'PWA'],
   authors: [{ name: 'WeatherNow Team' }],
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
-  },
-  themeColor: '#3B82F6',
   manifest: '/manifest.json',
   icons: {
     icon: [
@@ -48,6 +41,14 @@ export const metadata: Metadata = {
     description: 'Get real-time weather updates with beautiful animations',
     images: ['/icon-512x512.png'],
   },
+}
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: '#3B82F6',
 }
 
 export default function RootLayout({

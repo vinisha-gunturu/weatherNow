@@ -56,9 +56,10 @@
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-display: swap;
   }
   
-  /* Focus styles for better accessibility */
+  /* Optimized focus styles for better accessibility */
   *:focus-visible {
     @apply outline-none ring-2 ring-blue-500 ring-offset-2 ring-offset-transparent;
   }
@@ -141,9 +142,18 @@
     }
   }
   
-  /* Better text contrast */
-  .text-high-contrast {
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  /* Performance optimizations */
+  .will-change-transform {
+    will-change: transform;
+  }
+
+  .will-change-opacity {
+    will-change: opacity;
+  }
+  
+  /* Weather icon optimization */
+  .weather-icon {
+    filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
   }
 }
 
@@ -193,7 +203,7 @@ html {
   }
 }
 
-/* Better loading states */
+/* Loading states optimization */
 .loading-shimmer {
   background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
   background-size: 200% 100%;
@@ -203,18 +213,4 @@ html {
 @keyframes shimmer {
   0% { background-position: -200% 0; }
   100% { background-position: 200% 0; }
-}
-
-/* Performance optimizations */
-.will-change-transform {
-  will-change: transform;
-}
-
-.will-change-opacity {
-  will-change: opacity;
-}
-
-/* Ensure good color contrast for weather icons */
-.weather-icon {
-  filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.5));
 }

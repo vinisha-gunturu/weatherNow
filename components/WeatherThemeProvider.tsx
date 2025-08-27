@@ -29,6 +29,23 @@ export function WeatherThemeProvider({ children }: WeatherThemeProviderProps) {
   const [currentTheme, setCurrentTheme] = useState('cloudy')
   const [isDayTime, setIsDayTime] = useState(true)
   const [backgroundKey, setBackgroundKey] = useState(0)
+  const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
+
+  // Handle window size for particle positioning
+  useEffect(() => {
+    const updateSize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight
+      })
+    }
+
+    if (typeof window !== 'undefined') {
+      updateSize()
+      window.addEventListener('resize', updateSize)
+      return () => window.removeEventListener('resize', updateSize)
+    }
+  }, [])
 
   const setWeatherCode = (code: number) => {
     const newTheme = getWeatherTheme(code)
@@ -61,30 +78,35 @@ export function WeatherThemeProvider({ children }: WeatherThemeProviderProps) {
   }
 
   const getParticles = (theme: string) => {
+    if (windowSize.width === 0) return [] // Don't render particles until window size is known
+    
     switch (theme) {
       case 'rainy':
-        return Array.from({ length: 50 }, (_, i) => ({
+        return Array.from({ length: Math.min(30, Math.floor(windowSize.width / 40)) }, (_, i) => ({
           id: i,
           emoji: '💧',
           size: Math.random() * 0.5 + 0.5,
           duration: Math.random() * 2 + 3,
           delay: Math.random() * 5,
+          x: Math.random() * windowSize.width,
         }))
       case 'snowy':
-        return Array.from({ length: 30 }, (_, i) => ({
+        return Array.from({ length: Math.min(20, Math.floor(windowSize.width / 60)) }, (_, i) => ({
           id: i,
           emoji: '❄️',
           size: Math.random() * 0.8 + 0.4,
           duration: Math.random() * 3 + 4,
           delay: Math.random() * 5,
+          x: Math.random() * windowSize.width,
         }))
       case 'stormy':
-        return Array.from({ length: 20 }, (_, i) => ({
+        return Array.from({ length: Math.min(15, Math.floor(windowSize.width / 80)) }, (_, i) => ({
           id: i,
           emoji: i % 3 === 0 ? '⚡' : '☁️',
           size: Math.random() * 0.6 + 0.6,
           duration: Math.random() * 1.5 + 2,
           delay: Math.random() * 3,
+          x: Math.random() * windowSize.width,
         }))
       default:
         return []
@@ -114,44 +136,46 @@ export function WeatherThemeProvider({ children }: WeatherThemeProviderProps) {
         </AnimatePresence>
 
         {/* Weather Particles */}
-        <AnimatePresence>
-          {particles.map((particle) => (
-            <motion.div
-              key={`${currentTheme}-${particle.id}`}
-              initial={{ 
-                opacity: 0, 
-                y: -50, 
-                x: Math.random() * window.innerWidth,
-                scale: 0
-              }}
-              animate={{ 
-                opacity: 1, 
-                y: window.innerHeight + 50,
-                scale: particle.size,
-                rotate: [0, 360]
-              }}
-              exit={{ opacity: 0, scale: 0 }}
-              transition={{
-                duration: particle.duration,
-                delay: particle.delay,
-                repeat: Infinity,
-                ease: "linear",
-                rotate: {
-                  duration: particle.duration * 0.5,
+        {windowSize.width > 0 && (
+          <AnimatePresence>
+            {particles.map((particle) => (
+              <motion.div
+                key={`${currentTheme}-${particle.id}`}
+                initial={{ 
+                  opacity: 0, 
+                  y: -50, 
+                  x: particle.x,
+                  scale: 0
+                }}
+                animate={{ 
+                  opacity: 1, 
+                  y: windowSize.height + 50,
+                  scale: particle.size,
+                  rotate: [0, 360]
+                }}
+                exit={{ opacity: 0, scale: 0 }}
+                transition={{
+                  duration: particle.duration,
+                  delay: particle.delay,
                   repeat: Infinity,
-                  ease: "linear"
-                }
-              }}
-              className="fixed pointer-events-none text-lg z-0"
-              style={{
-                fontSize: `${particle.size}rem`,
-                filter: `opacity(${0.3 + particle.size * 0.3})`,
-              }}
-            >
-              {particle.emoji}
-            </motion.div>
-          ))}
-        </AnimatePresence>
+                  ease: "linear",
+                  rotate: {
+                    duration: particle.duration * 0.5,
+                    repeat: Infinity,
+                    ease: "linear"
+                  }
+                }}
+                className="fixed pointer-events-none text-lg z-0 will-change-transform"
+                style={{
+                  fontSize: `${particle.size}rem`,
+                  filter: `opacity(${0.3 + particle.size * 0.3})`,
+                }}
+              >
+                {particle.emoji}
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        )}
 
         {/* Ambient Light Effects */}
         <AnimatePresence>
@@ -168,7 +192,7 @@ export function WeatherThemeProvider({ children }: WeatherThemeProviderProps) {
                 repeat: Infinity,
                 ease: "easeInOut"
               }}
-              className="fixed top-20 right-20 w-96 h-96 bg-yellow-300/20 rounded-full blur-3xl pointer-events-none z-0"
+              className="fixed top-20 right-20 w-96 h-96 bg-yellow-300/20 rounded-full blur-3xl pointer-events-none z-0 will-change-opacity"
             />
           )}
         </AnimatePresence>
@@ -187,7 +211,7 @@ export function WeatherThemeProvider({ children }: WeatherThemeProviderProps) {
                 repeatDelay: Math.random() * 5 + 2,
                 ease: "easeInOut"
               }}
-              className="fixed inset-0 bg-white/20 pointer-events-none z-0"
+              className="fixed inset-0 bg-white/20 pointer-events-none z-0 will-change-opacity"
             />
           )}
         </AnimatePresence>
