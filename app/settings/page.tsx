@@ -105,14 +105,14 @@ export default function SettingsPage() {
   )
 
   return (
-    <div className="min-h-screen">
+    <div className="w-full">
       <motion.div
         initial="initial"
         animate="in"
         exit="out"
         variants={pageVariants}
         transition={pageTransition}
-        className="container mx-auto px-4 py-8"
+        className="container mx-auto px-4 py-6 max-w-7xl"
       >
         {/* Header */}
         <motion.header 
