@@ -64,7 +64,7 @@ export function WeatherThemeProvider({ children }: WeatherThemeProviderProps) {
     <WeatherThemeContext.Provider 
       value={{ currentTheme, setWeatherCode, isDayTime, setIsDayTime }}
     >
-      <div className="relative min-h-screen overflow-hidden">
+      <div className="relative min-h-screen">
         {/* Animated Background */}
         <AnimatePresence mode="wait">
           <motion.div

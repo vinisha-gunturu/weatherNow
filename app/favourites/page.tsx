@@ -70,14 +70,14 @@ export default function FavouritesPage() {
   }
 
   return (
-    <div className="min-h-screen">
+    <div className="w-full">
       <motion.div
         initial="initial"
         animate="in"
         exit="out"
         variants={pageVariants}
         transition={pageTransition}
-        className="container mx-auto px-4 py-8"
+        className="w-full px-4 lg:px-8 xl:px-12 py-6"
       >
         {/* Header */}
         <motion.header 
@@ -148,7 +148,7 @@ export default function FavouritesPage() {
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto"
+              className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-full"
             >
               <AnimatePresence>
                 {favourites.map((location) => (

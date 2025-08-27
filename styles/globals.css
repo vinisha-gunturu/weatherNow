@@ -150,6 +150,21 @@
   .will-change-opacity {
     will-change: opacity;
   }
+
+  /* Responsive container utilities */
+  .responsive-container {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  /* Mobile-first responsive design */
+  @media (max-width: 640px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
   
   /* Weather icon optimization */
   .weather-icon {
@@ -160,6 +175,12 @@
 /* Smooth scrolling for better UX */
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* Reduce motion for accessibility */
