@@ -72,10 +72,11 @@ export function HourlyForecast({ weatherData, className }: HourlyForecastProps) 
         </CardHeader>
         <CardContent>
           <motion.div
-            className="flex overflow-x-auto space-x-4 pb-4"
+            className="flex overflow-x-auto overflow-y-hidden space-x-4 pb-4 scrollbar-hide"
             variants={containerVariants}
             initial="hidden"
             animate="visible"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
             {hourlyData.map((hour, index) => (
               <motion.div
